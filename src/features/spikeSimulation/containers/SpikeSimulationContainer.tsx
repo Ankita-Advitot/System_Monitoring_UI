@@ -4,12 +4,12 @@ import { spikeService } from '@/services/spikeService';
 import { SPIKE_MESSAGES } from '../constants/spikeConstants';
 import type { SpikeSimulationSchemaType } from '../schemas/spikeSchema';
 import type { SpikeSimulationData } from '../types/spikeTypes';
-import { useToast } from '@/hooks/use-toast';
+
+import { toast } from '@/components/ui/sonner';
 import { Zap } from 'lucide-react';
 
 export const SpikeSimulationContainer = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const { toast } = useToast();
 
   const handleSubmit = async (data: SpikeSimulationSchemaType) => {
     setIsLoading(true);
@@ -25,14 +25,12 @@ export const SpikeSimulationContainer = () => {
 
     try {
       await spikeService.simulateSpike(apiData);
-      toast({
-        title: 'Success',
+
+      toast.success('Success', {
         description: SPIKE_MESSAGES.SUCCESS,
       });
     } catch (error) {
-      toast({
-        variant: 'destructive',
-        title: 'Error',
+      toast.error('Error', {
         description: SPIKE_MESSAGES.ERROR,
       });
     } finally {

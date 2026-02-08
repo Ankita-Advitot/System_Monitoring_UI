@@ -3,14 +3,14 @@ import { ThresholdForm } from '../components/ThresholdForm';
 import { thresholdService } from '@/services/thresholdService';
 import { THRESHOLD_MESSAGES, DEFAULT_THRESHOLDS } from '../constants/thresholdConstants';
 import type { ThresholdData } from '../types/thresholdTypes';
-import { useToast } from '@/hooks/use-toast';
+
+import { toast } from '@/components/ui/sonner';
 import { Sliders } from 'lucide-react';
 
 export const ThresholdContainer = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isFetching, setIsFetching] = useState(true);
   const [thresholds, setThresholds] = useState<ThresholdData>(DEFAULT_THRESHOLDS);
-  const { toast } = useToast();
 
   useEffect(() => {
     const fetchThresholds = async () => {
@@ -18,9 +18,8 @@ export const ThresholdContainer = () => {
         const data = await thresholdService.getThresholds();
         setThresholds(data);
       } catch (error) {
-        toast({
-          variant: 'destructive',
-          title: 'Error',
+
+        toast.error('Error', {
           description: THRESHOLD_MESSAGES.LOAD_ERROR,
         });
       } finally {
@@ -36,14 +35,12 @@ export const ThresholdContainer = () => {
     try {
       await thresholdService.updateThresholds(data);
       setThresholds(data);
-      toast({
-        title: 'Success',
+
+      toast.success('Success', {
         description: THRESHOLD_MESSAGES.SUCCESS,
       });
     } catch (error) {
-      toast({
-        variant: 'destructive',
-        title: 'Error',
+      toast.error('Error', {
         description: THRESHOLD_MESSAGES.ERROR,
       });
     } finally {

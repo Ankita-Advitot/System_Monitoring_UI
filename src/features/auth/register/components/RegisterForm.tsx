@@ -5,7 +5,8 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { registerSchema, type RegisterSchemaType } from '../schemas/registerSchema';
 import { REGISTER_FORM_LABELS } from '../constants/registerConstants';
-import { Loader2, User, Mail, Lock } from 'lucide-react';
+import { Loader2, User, Mail, Lock, Eye, EyeOff } from 'lucide-react';
+import { useState } from 'react';
 import { PasswordRequirementList } from '../../components/PasswordRequirementList';
 import { AUTH_VALIDATION } from '../../constants/authConstants';
 
@@ -16,6 +17,8 @@ interface RegisterFormProps {
 }
 
 export const RegisterForm = ({ onSubmit, isLoading, error }: RegisterFormProps) => {
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const {
     register,
     handleSubmit,
@@ -94,11 +97,22 @@ export const RegisterForm = ({ onSubmit, isLoading, error }: RegisterFormProps) 
           <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
             id="password"
-            type="password"
+            type={showPassword ? 'text' : 'password'}
             placeholder="Create a password"
-            className="pl-10 form-input"
+            className="pl-10 pr-10 form-input"
             {...register('password')}
           />
+          <button
+            type="button"
+            onClick={() => setShowPassword(!showPassword)}
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+          >
+            {showPassword ? (
+              <EyeOff className="h-4 w-4" />
+            ) : (
+              <Eye className="h-4 w-4" />
+            )}
+          </button>
         </div>
         <PasswordRequirementList value={passwordValue} />
         {errors.password && (
@@ -114,11 +128,22 @@ export const RegisterForm = ({ onSubmit, isLoading, error }: RegisterFormProps) 
           <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
             id="confirmPassword"
-            type="password"
+            type={showConfirmPassword ? 'text' : 'password'}
             placeholder="Confirm your password"
-            className="pl-10 form-input"
+            className="pl-10 pr-10 form-input"
             {...register('confirmPassword')}
           />
+          <button
+            type="button"
+            onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+          >
+            {showConfirmPassword ? (
+              <EyeOff className="h-4 w-4" />
+            ) : (
+              <Eye className="h-4 w-4" />
+            )}
+          </button>
         </div>
         {errors.confirmPassword && (
           <p className="text-sm text-destructive">{errors.confirmPassword.message}</p>

@@ -5,7 +5,8 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { loginSchema, type LoginSchemaType } from '../schemas/loginSchema';
 import { LOGIN_FORM_LABELS } from '../constants/loginConstants';
-import { Loader2, Mail, Lock } from 'lucide-react';
+import { Loader2, Mail, Lock, Eye, EyeOff } from 'lucide-react';
+import { useState } from 'react';
 
 interface LoginFormProps {
   onSubmit: (data: LoginSchemaType) => void;
@@ -14,6 +15,7 @@ interface LoginFormProps {
 }
 
 export const LoginForm = ({ onSubmit, isLoading, error }: LoginFormProps) => {
+  const [showPassword, setShowPassword] = useState(false);
   const {
     register,
     handleSubmit,
@@ -55,11 +57,22 @@ export const LoginForm = ({ onSubmit, isLoading, error }: LoginFormProps) => {
           <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
             id="password"
-            type="password"
+            type={showPassword ? 'text' : 'password'}
             placeholder="Enter your password"
-            className="pl-10 form-input"
+            className="pl-10 pr-10 form-input"
             {...register('password')}
           />
+          <button
+            type="button"
+            onClick={() => setShowPassword(!showPassword)}
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+          >
+            {showPassword ? (
+              <EyeOff className="h-4 w-4" />
+            ) : (
+              <Eye className="h-4 w-4" />
+            )}
+          </button>
         </div>
         {errors.password && (
           <p className="text-sm text-destructive">{errors.password.message}</p>
