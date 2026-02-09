@@ -8,7 +8,7 @@ export const App = () => {
     <BrowserRouter>
       <SystemStreamManager />
       <AppRoutes />
-      <Toaster position="top-right" expand={true} richColors={true} duration={10000} visibleToasts={1} />
+      <Toaster position="top-right" expand={true} richColors={true} duration={10000} visibleToasts={3} />
     </BrowserRouter>
   );
 };

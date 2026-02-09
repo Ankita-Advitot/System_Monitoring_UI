@@ -56,6 +56,7 @@ const realStreamAlerts = (callbacks: AlertStreamCallbacks): (() => void) => {
                     event_type: rawData.event_type || rawData.type || 'status_change',
                     reason: rawData.reason || rawData.message || 'No details provided',
                     event_at: rawData.event_at || rawData.timestamp || new Date().toISOString(),
+                    is_resolved: rawData.is_resolved || false,
                 };
 
                 callbacks.onAlert(mappedAlert);

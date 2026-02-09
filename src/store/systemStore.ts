@@ -57,7 +57,11 @@ export const useSystemStore = create<SystemState>((set, get) => ({
         const eventName = alert.event_type ? alert.event_type.replace('_', ' ') : 'Update';
         const title = `${resourceName} ${alert.severity === 'critical' ? 'Critical' : 'Warning'}: ${eventName}`;
 
-        if (alert.severity === 'critical') {
+        if (alert.is_resolved) {
+            toast.success(`${resourceName} Resolved: ${eventName}`, {
+                description: `The issue with ${resourceName.toLowerCase()} has been resolved.`,
+            });
+        } else if (alert.severity === 'critical') {
             toast.error(title, {
                 description: alert.reason,
             });

@@ -33,6 +33,7 @@ export interface AlertEvent {
   event_type: string;
   reason: string;
   event_at: string;
+  is_resolved?: boolean;
 }
 
 export interface CpuAllocationData {
