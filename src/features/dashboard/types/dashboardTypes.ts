@@ -28,6 +28,7 @@ export interface NetworkChartData {
 export type AlertSeverity = 'warning' | 'critical';
 
 export interface AlertEvent {
+  id: string;
   resource_type: string;
   severity: AlertSeverity;
   event_type: string;

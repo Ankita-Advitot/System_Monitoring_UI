@@ -1,36 +1,37 @@
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '@/store/authStore';
-import { 
-  Activity, 
-  LayoutDashboard, 
-  Sliders, 
-  Zap, 
+import {
+  Activity,
+  LayoutDashboard,
+  Sliders,
+  Zap,
   LogOut,
   ChevronLeft,
   ChevronRight
 } from 'lucide-react';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
+import { NotificationIcon } from '@/components/notifications/NotificationIcon';
 
 interface SidebarLayoutProps {
   children: React.ReactNode;
 }
 
 const menuItems = [
-  { 
-    path: '/app/dashboard', 
-    label: 'Dashboard', 
-    icon: LayoutDashboard 
+  {
+    path: '/app/dashboard',
+    label: 'Dashboard',
+    icon: LayoutDashboard
   },
-  { 
-    path: '/app/thresholds', 
-    label: 'Thresholds', 
-    icon: Sliders 
+  {
+    path: '/app/thresholds',
+    label: 'Thresholds',
+    icon: Sliders
   },
-  { 
-    path: '/app/spike-simulation', 
-    label: 'Spike Simulation', 
-    icon: Zap 
+  {
+    path: '/app/spike-simulation',
+    label: 'Spike Simulation',
+    icon: Zap
   },
 ];
 
@@ -98,7 +99,7 @@ export const SidebarLayout = ({ children }: SidebarLayoutProps) => {
             <LogOut className="w-5 h-5 shrink-0" />
             {!collapsed && <span>Logout</span>}
           </button>
-          
+
           <button
             onClick={() => setCollapsed(!collapsed)}
             className="sidebar-item w-full justify-center"
@@ -115,11 +116,27 @@ export const SidebarLayout = ({ children }: SidebarLayoutProps) => {
       {/* Main content */}
       <main
         className={cn(
-          'flex-1 transition-all duration-300',
+          'flex-1 transition-all duration-300 flex flex-col',
           collapsed ? 'ml-16' : 'ml-64'
         )}
       >
-        <div className="p-6">
+        {/* Top Header */}
+        <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+          <div className="flex h-16 items-center justify-between px-6">
+            <div className="flex items-center gap-4">
+              {/* Optional: Add search or page title here */}
+              <h2 className="text-sm font-medium text-muted-foreground">System Overview</h2>
+            </div>
+            <div className="flex items-center gap-4">
+              <NotificationIcon />
+              <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center border border-primary/20">
+                <span className="text-xs font-medium text-primary">JD</span>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <div className="p-6 flex-1">
           {children}
         </div>
       </main>

@@ -10,7 +10,6 @@ export const loginSchema = z.object({
       AUTH_VALIDATION.EMAIL.REGEX,
       AUTH_VALIDATION.EMAIL.MESSAGE
     ),
-
   password: z
     .string()
     .trim()

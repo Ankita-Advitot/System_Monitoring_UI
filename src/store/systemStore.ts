@@ -10,6 +10,7 @@ interface SystemState {
     metrics: MetricData[];
     latestMetric: MetricData | null;
     alerts: AlertEvent[];
+    readAlertIds: Set<string>;
     cpuAllocation: CpuAllocationData | null;
     isLoadingCpu: boolean;
     isMetricsConnected: boolean;
@@ -20,6 +21,8 @@ interface SystemState {
     // Actions
     addMetric: (metric: MetricData) => void;
     addAlert: (alert: AlertEvent) => void;
+    markAlertAsRead: (id: string) => void;
+    markAllAlertsAsRead: () => void;
     fetchCpuAllocation: () => Promise<void>;
     startStreams: () => void;
     stopStreams: () => void;
@@ -30,6 +33,7 @@ export const useSystemStore = create<SystemState>((set, get) => ({
     metrics: [],
     latestMetric: null,
     alerts: [],
+    readAlertIds: new Set<string>(),
     cpuAllocation: null,
     isLoadingCpu: false,
     isMetricsConnected: false,
@@ -48,33 +52,54 @@ export const useSystemStore = create<SystemState>((set, get) => ({
     },
 
     addAlert: (alert: AlertEvent) => {
+        const id = alert.id || Math.random().toString(36).substring(2, 9);
+        const alertWithId = { ...alert, id };
+
         set((state) => ({
-            alerts: [alert, ...state.alerts].slice(0, 50), // Keep last 50 alerts
+            alerts: [alertWithId, ...state.alerts].slice(0, 50), // Keep last 50 alerts
         }));
 
-        // Show severity-based toast
+        // Show severity-based toast in bottom-right
         const resourceName = alert.resource_type.toUpperCase();
         const eventName = alert.event_type ? alert.event_type.replace('_', ' ') : 'Update';
         const title = `${resourceName} ${alert.severity === 'critical' ? 'Critical' : 'Warning'}: ${eventName}`;
 
+        const toastOptions = {
+            description: alert.reason,
+            position: 'bottom-right' as const,
+        };
+
         if (alert.is_resolved) {
             toast.success(`${resourceName} Resolved: ${eventName}`, {
+                ...toastOptions,
                 description: `The issue with ${resourceName.toLowerCase()} has been resolved.`,
             });
         } else if (alert.severity === 'critical') {
-            toast.error(title, {
-                description: alert.reason,
-            });
+            toast.error(title, toastOptions);
         } else {
-            toast.warning(title, {
-                description: alert.reason,
-            });
+            toast.warning(title, toastOptions);
         }
 
         // Trigger CPU allocation update automatically for CPU alerts
         if (alert.resource_type === 'cpu') {
             get().fetchCpuAllocation();
         }
+    },
+
+    markAlertAsRead: (id: string) => {
+        set((state) => {
+            const newReadIds = new Set(state.readAlertIds);
+            newReadIds.add(id);
+            return { readAlertIds: newReadIds };
+        });
+    },
+
+    markAllAlertsAsRead: () => {
+        set((state) => {
+            const newReadIds = new Set(state.readAlertIds);
+            state.alerts.forEach((alert) => newReadIds.add(alert.id));
+            return { readAlertIds: newReadIds };
+        });
     },
 
     fetchCpuAllocation: async () => {
@@ -118,6 +143,7 @@ export const useSystemStore = create<SystemState>((set, get) => ({
                 set({ isAlertsConnected: false });
                 toast.error('Alert stream disconnected', {
                     description: 'Attempting to reconnect...',
+                    position: 'bottom-right',
                 });
             },
         });
@@ -148,6 +174,7 @@ export const useSystemStore = create<SystemState>((set, get) => ({
             metrics: [],
             latestMetric: null,
             alerts: [],
+            readAlertIds: new Set(),
             cpuAllocation: null,
         });
     },

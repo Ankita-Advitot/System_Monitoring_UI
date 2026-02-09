@@ -17,10 +17,10 @@ const Toaster = ({ ...props }: ToasterProps) => {
           description: "group-[.toast]:text-inherit opacity-90",
           actionButton: "group-[.toast]:bg-primary group-[.toast]:text-primary-foreground",
           cancelButton: "group-[.toast]:bg-muted group-[.toast]:text-muted-foreground",
-          // Custom styles for warning, error, and success
-          error: "group-[.toaster]:bg-red-600 group-[.toaster]:text-white group-[.toaster]:border-red-700",
-          warning: "group-[.toaster]:bg-yellow-400 group-[.toaster]:text-black group-[.toaster]:border-yellow-500",
-          success: "group-[.toaster]:bg-green-600 group-[.toaster]:text-white group-[.toaster]:border-green-700",
+          // Transparent vibrant styles for dark theme
+          error: "group-[.toaster]:bg-red-500/20 group-[.toaster]:text-red-200 group-[.toaster]:border-red-500/50 group-[.toaster]:backdrop-blur",
+          warning: "group-[.toaster]:bg-yellow-500/20 group-[.toaster]:text-yellow-200 group-[.toaster]:border-yellow-500/50 group-[.toaster]:backdrop-blur",
+          success: "group-[.toaster]:bg-emerald-500/20 group-[.toaster]:text-emerald-200 group-[.toaster]:border-emerald-500/50 group-[.toaster]:backdrop-blur",
         },
       }}
       {...props}

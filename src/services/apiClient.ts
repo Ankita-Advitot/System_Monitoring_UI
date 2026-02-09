@@ -29,7 +29,12 @@ apiClient.interceptors.response.use(
   (error) => {
     if (error.response?.status === 401) {
       useAuthStore.getState().clearToken();
-      window.location.href = '/login';
+
+      // Only redirect if not already on an auth page to prevent page reload and losing form data
+      const currentPath = window.location.pathname;
+      if (currentPath !== '/login' && currentPath !== '/register') {
+        window.location.href = '/login';
+      }
     }
     return Promise.reject(error);
   }
