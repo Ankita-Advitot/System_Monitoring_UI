@@ -7,7 +7,8 @@ import { Button } from '@/components/ui/button';
 
 export const NotificationIcon = () => {
     const { alerts, readAlertIds } = useSystemStore();
-    const unreadCount = alerts.filter(alert => !readAlertIds.has(alert.id)).length;
+    const unreadCount = alerts.filter(alert => !readAlertIds.includes(alert.id)).length;
+
 
     return (
         <Popover>
