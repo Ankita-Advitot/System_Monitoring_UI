@@ -10,7 +10,7 @@ interface CpuAllocationCardProps {
 export const CpuAllocationCard = ({ data, loading }: CpuAllocationCardProps) => {
     if (loading && !data) {
         return (
-            <div className="metric-card animate-pulse h-[300px] flex items-center justify-center">
+            <div className="metric-card animate-pulse h-80 flex items-center justify-center">
                 <p className="text-muted-foreground">Loading CPU allocation status...</p>
             </div>
         );
@@ -18,7 +18,7 @@ export const CpuAllocationCard = ({ data, loading }: CpuAllocationCardProps) => 
 
     if (!data) {
         return (
-            <div className="metric-card h-[300px] flex items-center justify-center">
+            <div className="metric-card h-80 flex items-center justify-center">
                 <p className="text-muted-foreground">No CPU allocation data available</p>
             </div>
         );
@@ -27,7 +27,7 @@ export const CpuAllocationCard = ({ data, loading }: CpuAllocationCardProps) => 
     const allocationPercent = (data.allocated_cores / data.total_cores) * 100;
 
     return (
-        <div className="metric-card h-[300px] flex flex-col justify-between">
+        <div className="metric-card h-80 flex flex-col justify-between">
             <div>
                 <div className="flex items-center gap-2 mb-4">
                     <Layers className="w-5 h-5 text-chart-cpu" />

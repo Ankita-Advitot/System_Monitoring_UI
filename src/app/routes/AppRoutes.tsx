@@ -6,14 +6,17 @@ import { ThresholdContainer } from '@/features/thresholds/containers/ThresholdCo
 import { SpikeSimulationContainer } from '@/features/spikeSimulation/containers/SpikeSimulationContainer';
 import { SidebarLayout } from '@/app/layout/SidebarLayout';
 import { ProtectedRoute } from './ProtectedRoute';
+import { PublicRoute } from './PublicRoute';
 
 export const AppRoutes = () => {
   return (
     <Routes>
       {/* Public routes */}
-      <Route path="/login" element={<LoginContainer />} />
-      <Route path="/register" element={<RegisterContainer />} />
-      
+      <Route element={<PublicRoute />}>
+        <Route path="/login" element={<LoginContainer />} />
+        <Route path="/register" element={<RegisterContainer />} />
+      </Route>
+
       {/* Protected routes */}
       <Route element={<ProtectedRoute />}>
         <Route

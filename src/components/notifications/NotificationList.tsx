@@ -9,8 +9,8 @@ export const NotificationList = () => {
     const unreadCount = alerts.filter(a => !readAlertIds.has(a.id)).length;
 
     return (
-        <div className="flex flex-col w-80 max-h-[450px]">
-            <div className="p-4 border-b flex items-center justify-between">
+        <div className="flex flex-col w-80 max-h-[500px] overflow-hidden">
+            <div className="p-4 border-b flex items-center justify-between shrink-0 bg-background/95 backdrop-blur">
                 <h3 className="font-semibold text-sm">Notifications</h3>
                 {unreadCount > 0 && (
                     <Button
@@ -24,20 +24,22 @@ export const NotificationList = () => {
                     </Button>
                 )}
             </div>
-            <ScrollArea className="flex-1">
-                {alerts.length > 0 ? (
-                    <div className="flex flex-col">
-                        {alerts.map((alert) => (
-                            <NotificationItem key={alert.id} notification={alert} />
-                        ))}
-                    </div>
-                ) : (
-                    <div className="p-8 text-center">
-                        <p className="text-sm text-muted-foreground">No notifications yet</p>
-                    </div>
-                )}
+            <ScrollArea className="flex-1 min-h-0">
+                <div className="max-h-[350px]">
+                    {alerts.length > 0 ? (
+                        <div className="flex flex-col divide-y divide-border/50">
+                            {alerts.map((alert) => (
+                                <NotificationItem key={alert.id} notification={alert} />
+                            ))}
+                        </div>
+                    ) : (
+                        <div className="p-8 text-center">
+                            <p className="text-sm text-muted-foreground">No notifications yet</p>
+                        </div>
+                    )}
+                </div>
             </ScrollArea>
-            <div className="p-2 border-t text-center">
+            <div className="p-2 border-t text-center shrink-0 bg-muted/5">
                 <p className="text-[10px] text-muted-foreground">
                     Showing last {alerts.length} alerts
                 </p>

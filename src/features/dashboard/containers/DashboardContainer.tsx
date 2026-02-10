@@ -66,8 +66,8 @@ export const DashboardContainer = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <CpuChart data={cpuChartData} />
-        <MemoryChart data={memoryChartData} />
         <NetworkChart data={networkChartData} />
+        <MemoryChart data={memoryChartData} />
         <CpuAllocationCard data={cpuAllocation} loading={isLoadingCpu} />
       </div>
     </div>

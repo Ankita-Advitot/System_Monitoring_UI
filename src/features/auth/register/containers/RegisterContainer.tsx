@@ -18,7 +18,7 @@ export const RegisterContainer = () => {
 
     try {
       await authService.register(data);
-      navigate('/login');
+      navigate('/login', { replace: true });
     } catch (err) {
       setError(REGISTER_MESSAGES.ERROR);
     } finally {

@@ -21,7 +21,7 @@ export const LoginContainer = () => {
     try {
       const response = await authService.login(data);
       setToken(response.token);
-      navigate('/app/dashboard');
+      navigate('/app/dashboard', { replace: true });
     } catch (err) {
       setError(LOGIN_MESSAGES.ERROR);
     } finally {
