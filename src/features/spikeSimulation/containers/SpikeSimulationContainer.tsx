@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { SpikeSimulationForm } from '../components/SpikeSimulationForm';
 import { spikeService } from '@/services/spikeService';
 import { SPIKE_MESSAGES } from '../constants/spikeConstants';
@@ -10,6 +11,7 @@ import { Zap } from 'lucide-react';
 
 export const SpikeSimulationContainer = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = async (data: SpikeSimulationSchemaType) => {
     setIsLoading(true);
@@ -29,6 +31,8 @@ export const SpikeSimulationContainer = () => {
       toast.success('Success', {
         description: SPIKE_MESSAGES.SUCCESS,
       });
+
+      navigate('/app/dashboard');
     } catch (error) {
       toast.error('Error', {
         description: SPIKE_MESSAGES.ERROR,

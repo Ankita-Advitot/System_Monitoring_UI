@@ -14,6 +14,17 @@ import { useState } from 'react';
 import { cn } from '@/lib/utils';
 import { NotificationIcon } from '@/components/notifications/NotificationIcon';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
 
 interface SidebarLayoutProps {
@@ -90,13 +101,31 @@ export const SidebarLayout = ({ children }: SidebarLayoutProps) => {
 
       {/* Bottom section */}
       <div className="p-3 border-t border-sidebar-border space-y-1">
-        <button
-          onClick={handleLogout}
-          className="sidebar-item w-full text-destructive hover:text-destructive hover:bg-destructive/10"
-        >
-          <LogOut className="w-5 h-5 shrink-0" />
-          {(!collapsed || isMobile) && <span>Logout</span>}
-        </button>
+        <AlertDialog>
+          <AlertDialogTrigger asChild>
+            <button className="sidebar-item w-full text-destructive hover:text-destructive hover:bg-destructive/10">
+              <LogOut className="w-5 h-5 shrink-0" />
+              {(!collapsed || isMobile) && <span>Logout</span>}
+            </button>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Are you sure you want to logout?</AlertDialogTitle>
+              <AlertDialogDescription>
+                You will be redirected to the login page and your current session will be ended.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction
+                onClick={handleLogout}
+                className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+              >
+                Logout
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
 
         {!isMobile && (
           <button
