@@ -22,7 +22,8 @@ const getIcon = (severity: string, isResolved?: boolean) => {
 
 export const NotificationItem = ({ notification }: NotificationItemProps) => {
     const { readAlertIds, markAlertAsRead } = useSystemStore();
-    const isRead = readAlertIds.has(notification.id);
+    const isRead = readAlertIds.includes(notification.id);
+
 
     return (
         <div

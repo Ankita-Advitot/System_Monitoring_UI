@@ -6,7 +6,8 @@ import { CheckCheck } from 'lucide-react';
 
 export const NotificationList = () => {
     const { alerts, markAllAlertsAsRead, readAlertIds } = useSystemStore();
-    const unreadCount = alerts.filter(a => !readAlertIds.has(a.id)).length;
+    const unreadCount = alerts.filter(a => !readAlertIds.includes(a.id)).length;
+
 
     return (
         <div className="flex flex-col w-80 max-h-[500px] overflow-hidden">
