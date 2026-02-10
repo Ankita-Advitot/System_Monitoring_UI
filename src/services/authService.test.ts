@@ -47,7 +47,11 @@ describe('authService', () => {
 
             const result = await authService.register(registerData);
 
-            expect(apiClient.post).toHaveBeenCalledWith(API_ENDPOINTS.AUTH.REGISTER, registerData);
+            expect(apiClient.post).toHaveBeenCalledWith(API_ENDPOINTS.AUTH.REGISTER, {
+                name: registerData.name,
+                email: registerData.email,
+                password: registerData.password,
+            });
             expect(result).toEqual(mockResponse.data);
         });
 
